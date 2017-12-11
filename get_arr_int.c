@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readmap.c                                          :+:      :+:    :+:   */
+/*   get_arr_int.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afokin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/07 17:56:05 by afokin            #+#    #+#             */
-/*   Updated: 2017/12/07 17:56:07 by afokin           ###   ########.fr       */
+/*   Created: 2017/12/11 15:27:41 by afokin            #+#    #+#             */
+/*   Updated: 2017/12/11 15:27:43 by afokin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_list			*read_map(int fd ,int *max_y)
+int			*get_arr_int(char **arr_str, int *x_size)
 {
-	char	*line;
-	t_list	*list;
-	t_list	*tmp;
-	int		y;
+	int		*arr;
+	int		size;
+	int		i;
 
-	list = (t_list *)malloc(sizeof(t_list));
-	tmp = list;
-	y = 0;
-	while (get_next_line(fd, &line) > 0)
+	size = 0;
+	i = 0;
+	while (arr_str[size])
+		size++;
+	*x_size = size;
+	arr = (int *)malloc(sizeof(int) * (size + 1));
+	while (i < size)
 	{
-		y++;
-		tmp->content = (void *)line;
-		tmp->next = (t_list *)malloc(sizeof(t_list));
-		tmp = tmp->next;
+		arr[i] = ft_atoi(arr_str[i]);
+		free(arr_str[i]);
+		i++;
 	}
-	tmp->next = NULL;
-	*max_y = y;
-	return (list);
+	free(arr_str);
+	return (arr);
 }

@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c readmap.c
+SRC = main.c readmap.c get_map.c draw_line.c get_arr_int.c
 
 OBG = $(SRC:.c=.o)
 
@@ -18,7 +18,9 @@ FLAG = -Wextra -Werror -Wall
 
 NAME = fdf
 
-HED = fdf.h
+HED = ./
+
+LIBFT = libft/libft.a
 
 LIBFT_DIR = ./libft/
 
@@ -26,19 +28,19 @@ LIBFT_DIR = ./libft/
 
 all: $(NAME)
 
-$(NAME): $(OBG) $(HED)
-	make -C $(LIBFT_DIR)
-	gcc $(FLAG) $(OBG) -o $(NAME) -L$(HED)
+$(NAME): $(OBG)
+	@make -C $(LIBFT_DIR)
+	@gcc -lmlx -framework OpenGL -framework AppKit $(FLAG) -I$(HED) $(OBG) ./libft/libft.a -o $(NAME)
 
 %.o: %.c
-	gcc $(FLAG) -o $@ -c $<
+	@gcc $(FLAG) -I$(HED) -o $@ -c $<
 
 clean:
-	make -C $(LIBFT_DIR) clean
-	rm -f $(OBG)
+	@make -C $(LIBFT_DIR) clean
+	@rm -f $(OBG)
 
 fclean: clean
-	make -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
+	@rm -f $(NAME)
 
 re: fclean all

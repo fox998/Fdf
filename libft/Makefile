@@ -38,7 +38,7 @@ $(NAME): $(OBG) $(INC)
 	@ar rc $(NAME) $(OBG)
 
 %.o : %.c
-	gcc -o $@ -c $< $(FLAGS) -I$(INC)
+	@gcc -o $@ -c $< $(FLAGS) -I$(INC)
 
 clean:
 	@rm -f $(OBG)
