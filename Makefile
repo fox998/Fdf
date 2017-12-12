@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c readmap.c get_map.c draw_line.c get_arr_int.c
+SRC = main.c readmap.c get_map.c draw_line.c get_arr_int.c get_center.c
 
 OBG = $(SRC:.c=.o)
 
@@ -28,8 +28,10 @@ LIBFT_DIR = ./libft/
 
 all: $(NAME)
 
-$(NAME): $(OBG)
+$(LIBFT_DIR):
 	@make -C $(LIBFT_DIR)
+
+$(NAME): $(OBG) $(LIBFT_DIR)
 	@gcc -lmlx -framework OpenGL -framework AppKit $(FLAG) -I$(HED) $(OBG) ./libft/libft.a -o $(NAME)
 
 %.o: %.c
