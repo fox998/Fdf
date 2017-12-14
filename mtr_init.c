@@ -1,43 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_center.c                                       :+:      :+:    :+:   */
+/*   mtr_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afokin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 16:52:16 by afokin            #+#    #+#             */
-/*   Updated: 2017/12/12 16:52:19 by afokin           ###   ########.fr       */
+/*   Created: 2017/12/13 19:01:32 by afokin            #+#    #+#             */
+/*   Updated: 2017/12/13 19:01:34 by afokin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void		get_center(t_map *m)
+void		mtr_init(t_mtr *m)
 {
-	int 	x;
-	int		y;
-	int		max_z;
-	int		min_z;
+	int i;
+	int j;
 
-	y = 0;
-	min_z = 2147483647;
-	max_z = -2147483648;
-
-	while (y < m->max_y)
+	i = 0;
+	while (i < 4)
 	{
-		x = 0;
-		while (x < m->max_x)
+		j = 0;
+		while (j < 4)
 		{
-			if (m->map[y][x] > max_z)
-				max_z = m->map[y][x];
-			if (m->map[y][x] < min_z)
-				min_z = m->map[y][x];
-			x++;
+			if (i == j || i == 3 || j == 3)
+				m->m[i][j] = 1;
+			else
+				m->m[i][j] = 0;
+			j++;
 		}
-		y++;
+		i++;
 	}
-	m->center.x = x / 2;
-	m->center.y = y / 2;
-	m->center.z = (min_z + max_z) / 2;
-	
-} 
+}

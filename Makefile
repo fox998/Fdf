@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c readmap.c get_map.c draw_line.c get_arr_int.c get_center.c
+SRC = main.c readmap.c get_map.c draw_line.c get_arr_int.c get_center.c \
+ print_map.c mtr_rot.c  get_ax.c  mtr_init.c 
 
 OBG = $(SRC:.c=.o)
 
