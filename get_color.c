@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_center.c                                       :+:      :+:    :+:   */
+/*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afokin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 16:52:16 by afokin            #+#    #+#             */
-/*   Updated: 2017/12/12 16:52:19 by afokin           ###   ########.fr       */
+/*   Created: 2017/12/16 18:39:40 by afokin            #+#    #+#             */
+/*   Updated: 2017/12/16 18:39:44 by afokin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void		get_center(t_map *m)
+int			get_color(int Color1, int Color2, double dl)
 {
-	int 		x;
-	int			y;
-	long long	sum;
+	int		R;
+	int		G;
+	int		B;
+	int		tmp;
 
-	y = 0;
-	sum = 0;
-	while (y < m->max_y)
+	if (Color1 < Color2)
 	{
-		x = 0;
-		while (x < m->max_x)
-		{
-			sum += m->map[y][x];
-			x++;
-		}
-		y++;
+		tmp = Color1;
+		Color1 = Color2;
+		Color2 = tmp;
 	}
-	m->center.x = x / 2;
-	m->center.y = y / 2;
-	m->center.z = 0;
-	//printf("-------------%f\n", m->center.z);
-} 
+	R = ((Color1 & 0xFF) - (Color2 & 0xFF)) / dl;
+	G = (((Color1 >> 8) & 0xFF) - ((Color2 >> 8) & 0xFF)) / dl;
+	B = (((Color1 >> 16) & 0xFF) - ((Color2 >> 16) & 0xFF)) / dl;
+	return (((B << 16) + (G << 8) + R) );
+}

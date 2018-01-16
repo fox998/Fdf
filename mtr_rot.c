@@ -12,31 +12,31 @@
 
 #include "fdf.h"
 
-void		mtr_rot(t_mtr *m, double ang_x, double ang_y, double ang_z)
+void		mtr_rot(t_mtr *mat, double angle_x, double angle_y, double angle_z)
 {
-	if (ang_x)
-	{
-		printf("x\n");
-		m->m[1][1] = cos(ang_x / 180 * 3.14);
-		m->m[2][2] = m->m[1][1];
-		m->m[2][1] = sin(ang_x / 180 * 3.14);
-		m->m[1][2] = -m->m[2][1];
-	}
+	angle_x *= M_PI/180;
+	angle_y *= M_PI/180;
+	angle_z *= M_PI/180;
+	double	A       = cos(angle_x);
+	double	B       = sin(angle_x);
+    double	C       = cos(angle_y);
+    double	D       = sin(angle_y);
+    double	E       = cos(angle_z);
+    double	F       = sin(angle_z);
 
-	if (ang_y)
-	{
-		printf("y\n");
-		m->m[0][0] = cos(ang_y / 180 * 3.14);
-		m->m[2][2] = m->m[0][0];
-		m->m[0][2] = sin(ang_y / 180 * 3.14);
-		m->m[2][0] = -m->m[0][2];
-	}
+    double	AD      =   A * D;
+    double	BD      =   B * D;
 
-	if (ang_z)
-	{
-		m->m[0][0] = cos(ang_z / 180 * 3.14);
-		m->m[1][1] = m->m[0][0];
-		m->m[1][0] = sin(ang_z / 180 * 3.14);
-		m->m[0][1] = -m->m[1][0];
-	}
+    mat->m[0][0]  =   C * E;
+    mat->m[0][1]  =  -C * F;
+    mat->m[0][2]  =  -D;
+    mat->m[1][0]  = -BD * E + A * F;
+    mat->m[1][1]  =  BD * F + A * E;
+    mat->m[1][2]  =  -B * C;
+    mat->m[2][0]  =  AD * E + B * F;
+    mat->m[2][1]  = -AD * F + B * E;
+    mat->m[2][2] =   A * C;
+
+    //mat->m[0][3]  =  mat->m[1][3] = mat->m[2][3] = mat->m[3][0] = mat->m[3][1] = mat->m[3][2] = 0;
+    mat->m[3][3] =  1;
 }

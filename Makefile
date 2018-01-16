@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 SRC = main.c readmap.c get_map.c draw_line.c get_arr_int.c get_center.c \
- print_map.c mtr_rot.c  get_ax.c  mtr_init.c 
+ print_map.c mtr_rot.c  get_ax.c  mtr_init.c   get_color.c
 
 OBG = $(SRC:.c=.o)
 
@@ -27,13 +27,16 @@ LIBFT_DIR = ./libft/
 
 .PHONY : all clean fclean re
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
 
 $(LIBFT_DIR):
 	@make -C $(LIBFT_DIR)
 
-$(NAME): $(OBG) $(LIBFT_DIR)
-	@gcc -lmlx -framework OpenGL -framework AppKit $(FLAG) -I$(HED) $(OBG) ./libft/libft.a -o $(NAME)
+$(NAME): $(LIBFT_DIR) $(OBG)
+	@gcc -lmlx -framework OpenGL -framework AppKit $(FLAG) -I$(HED) $(OBG) libft/libft.a -o $(NAME)
 
 %.o: %.c
 	@gcc $(FLAG) -I$(HED) -o $@ -c $<

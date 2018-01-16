@@ -12,76 +12,83 @@
 
 #include "fdf.h"
 
-void		print_map(t_map *m ,int dl, int w_h, int w_w, t_mtr *mtr)
+// static void	get_move(t_mtr *mtr , int dl)
+// {
+// 	t_point dt;
+
+// 	dt.x = WIN_W / 2.0f / dl;
+// 	dt.y = WIN_H / 2.0f / dl;
+// 	dt.z = 10;
+
+// 	mtr->m[0][3] = dt.x;
+// 	mtr->m[1][3] = dt.y;
+// 	mtr->m[2][3] = dt.z;
+// }
+
+void			rot_center(t_mtr *m, t_point *p)
+{
+	t_point tmp;
+	//double dz;
+
+	//dl = 1;
+	tmp = *p;
+	p->z = (tmp.x * m->m[2][0] + tmp.y * m->m[2][1] + tmp.z * m->m[2][2]);
+	p->x = ((tmp.x * m->m[0][0] + tmp.y * m->m[0][1] + tmp.z * m->m[0][2]) );
+	p->y = ((tmp.x * m->m[1][0] + tmp.y * m->m[1][1] + tmp.z * m->m[1][2]) );
+
+	//printf("tmp = %f , cnt  = %f \n", tmp.z , center.z);
+	//printf("x = %f , y = %f, z = %f\n",p->x,p->y, p->z );
+}
+
+void		print_map(int dl,t_window *wind)
 {
 	int x;
 	int y;
-	void	*mlx;
-	void	*win;
-	// float	tmp_x;
-	//float	tmp_y;
 
-	t_point a , b , c;
+	t_point a , b , c ;
 
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, w_h, w_w, "mlx 42");
+	//get_move(&wind->mtr, dl);
+	mlx_put_image_to_window(wind->mlx, wind->win, wind->img, 0, 0);
 
-	int dx, dy;
-	dl = 10;
-	dx = w_w / 2 ;//- (m->center.x * dl) / 2;
-	// printf("cen.x = %f\n", m->center.x);
-	// printf("cen.x = %d\n", dl);
-	// printf("cen.x = %f\n", m->center.x * dl);
-	// dx = (w_w - m->center.x * dl) / 2;
-	dy = w_h / 2;// - (m->center.y * dl) / 2;
 	y = 0;
-	while (y < m->max_y)
+	while (y < wind->map.max_y)
 	{
 		x = 0;
-		while (x < m->max_x)
+		while (x < wind->map.max_x)
 		{
-			// tmp_x = get_ax(mtr, 0, x*dl + dx);
-			//tmp_y = get_ax(mtr, 1, y*dl + dy);
 			a.x = x;
 			a.y = y;
-			a.z = m->map[y][x];
+			a.z = wind->map.map[y][x];
+			a.color = 0xFFFFFF - 0x0FFF00 * a.z;
 
 			b.x = a.x;
 			b.y = (y + 1);
-			if (y != m->max_y - 1)
-				b.z = m->map[y + 1][x];
+			if (y != wind->map.max_y - 1)
+				b.z = wind->map.map[y + 1][x];
+			b.color = 0xFFFFFF - 0x0FFF00 * b.z;
 
 			c.x = (x + 1);
 			c.y = a.y;
-			if (x != m->max_x - 1)
-				c.z = m->map[y][x + 1];
+			if (x != wind->map.max_x - 1)
+				c.z = wind->map.map[y][x + 1];
+			c.color = 0xFFFFFF - 0x0FFF00 * c.z;
 
-			get_point(mtr, &a, m->center);
-			get_point(mtr, &b, m->center);
-			get_point(mtr, &c, m->center);
-			// int angle = 45;
-			// a = rotate(a, angle, m->center);
-			// b = rotate(b, angle, m->center);
-			// c = rotate(c, angle, m->center);
+			get_point(&wind->mtr, &a, wind->map.center, dl);
+			get_point(&wind->mtr, &b, wind->map.center, dl);
+			get_point(&wind->mtr, &c, wind->map.center, dl);
+			
 
-			a.x = a.x * dl + dx;
-			a.y = a.y * dl + dy;
+			if (x != wind->map.max_x - 1)
+				draw_line1(a, c, wind->mlx , wind->win);
+			if (y != wind->map.max_y - 1)
+				draw_line1(a, b, wind->mlx , wind->win);
 
-			b.x = b.x * dl + dx;
-			b.y = b.y * dl + dy;
-
-			c.x = c.x * dl + dx;
-			c.y = c.y * dl + dy;
-			//tmp_y = ((float)(y * get_ax(mtr, 1) * dl) + dy);
-			if (x != m->max_x - 1)
-				draw_line(a.x, a.y, c.x, c.y , mlx , win);
-			if (y != m->max_y - 1)
-				draw_line(a.x, a.y, b.x, b.y , mlx , win);
+			// if (x != wind->map.max_x - 1)
+			// 	draw_line(a.x, a.y, c.x, c.y , mlx , win);
+			// if (y != wind->map.max_y - 1)
+			// 	draw_line(a.x, a.y, b.x, b.y , mlx , win);
 			x++;
 		}
 		y++;
 	}
-
-
-	mlx_loop(mlx);
 }
