@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-t_list			*read_map(int fd ,int *max_y)
+t_list			*read_map(int fd, int *max_y)
 {
 	char	*line;
 	t_list	*list;
@@ -31,5 +31,10 @@ t_list			*read_map(int fd ,int *max_y)
 	}
 	tmp->next = NULL;
 	*max_y = y;
+	if (y == 0)
+	{
+		ft_putstr("Error: enpty file\n");
+		exit(0);
+	}
 	return (list);
 }

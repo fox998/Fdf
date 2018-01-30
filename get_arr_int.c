@@ -22,6 +22,11 @@ int			*get_arr_int(char **arr_str, int *x_size)
 	i = 0;
 	while (arr_str[size])
 		size++;
+	if ((*x_size != -1 && *x_size != size) || size == 0)
+	{
+		ft_putstr("Error: incorrect map format\n");
+		exit(0);
+	}
 	*x_size = size;
 	arr = (int *)malloc(sizeof(int) * (size + 1));
 	while (i < size)

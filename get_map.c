@@ -12,14 +12,15 @@
 
 #include "fdf.h"
 
-int		**get_map(t_list *lst, int *x , int y)
+int		**get_map(t_list *lst, int *x, int y)
 {
-	int 		**map;
+	int			**map;
 	t_list		*tmp;
 	int			i;
 
 	map = (int **)malloc(sizeof(int *) * (y + 1));
 	i = 0;
+	*x = -1;
 	while (lst->next)
 	{
 		map[i] = get_arr_int(ft_strsplit(lst->content, ' '), x);

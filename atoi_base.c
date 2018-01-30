@@ -12,7 +12,6 @@
 
 #include "fdf.h"
 
-
 unsigned int			ft_atoi_hex(char *str, int base)
 {
 	int					z;

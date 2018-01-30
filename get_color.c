@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afokin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   by: afokin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/16 18:39:40 by afokin            #+#    #+#             */
+/*   created: 2017/12/16 18:39:40 by afokin            #+#    #+#             */
 /*   Updated: 2017/12/16 18:39:44 by afokin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int			get_color(int Color1, int Color2, double dl)
+int			get_color(int color1, int color2, double dl)
 {
-	int		R;
-	int		G;
-	int		B;
+	int		r;
+	int		g;
+	int		b;
 	int		tmp;
 
-	if (Color1 < Color2)
+	if (color1 < color2)
 	{
-		tmp = Color1;
-		Color1 = Color2;
-		Color2 = tmp;
+		tmp = color1;
+		color1 = color2;
+		color2 = tmp;
 	}
-	R = ((Color1 & 0xFF) - (Color2 & 0xFF)) / dl;
-	G = (((Color1 >> 8) & 0xFF) - ((Color2 >> 8) & 0xFF)) / dl;
-	B = (((Color1 >> 16) & 0xFF) - ((Color2 >> 16) & 0xFF)) / dl;
-	return (((B << 16) + (G << 8) + R) );
+	r = ((color1 & 0xFF) - (color2 & 0xFF)) / dl;
+	g = (((color1 >> 8) & 0xFF) - ((color2 >> 8) & 0xFF)) / dl;
+	b = (((color1 >> 16) & 0xFF) - ((color2 >> 16) & 0xFF)) / dl;
+	return (((b << 16) + (g << 8) + r));
 }
