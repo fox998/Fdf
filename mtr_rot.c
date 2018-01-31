@@ -14,33 +14,25 @@
 
 void		mtr_rot(t_mtr *mat, double angle_x, double angle_y, double angle_z)
 {
-	double a;
-	double b;
-	double c;
-	double d;
-	double e;
-	double f;
-	double ad;
-	double bd;
+	double c_xyz[3];
+	double s_xyz[3];
 
 	angle_x *= M_PI / 180;
 	angle_y *= M_PI / 180;
 	angle_z *= M_PI / 180;
-	a = cos(angle_x);
-	b = sin(angle_x);
-	c = cos(angle_y);
-	d = sin(angle_y);
-	e = cos(angle_z);
-	f = sin(angle_z);
-	ad = a * d;
-	bd = b * d;
-	mat->m[0][0] = c * e;
-	mat->m[0][1] = -c * f;
-	mat->m[0][2] = -d;
-	mat->m[1][0] = -bd * e + a * f;
-	mat->m[1][1] = bd * f + a * e;
-	mat->m[1][2] = -b * c;
-	mat->m[2][0] = ad * e + b * f;
-	mat->m[2][1] = -ad * f + b * e;
-	mat->m[2][2] = a * c;
+	c_xyz[0] = cos(angle_x);
+	s_xyz[0] = sin(angle_x);
+	c_xyz[1] = cos(angle_y);
+	s_xyz[1] = sin(angle_y);
+	c_xyz[2] = cos(angle_z);
+	s_xyz[2] = sin(angle_z);
+	mat->m[0][0] = c_xyz[1] * c_xyz[2];
+	mat->m[0][1] = -c_xyz[1] * s_xyz[2];
+	mat->m[0][2] = -s_xyz[1];
+	mat->m[1][0] = -(s_xyz[0] * s_xyz[1]) * c_xyz[2] + c_xyz[0] * s_xyz[2];
+	mat->m[1][1] = s_xyz[0] * s_xyz[1] * s_xyz[2] + c_xyz[0] * c_xyz[2];
+	mat->m[1][2] = -s_xyz[0] * c_xyz[1];
+	mat->m[2][0] = c_xyz[0] * s_xyz[1] * c_xyz[2] + s_xyz[0] * s_xyz[2];
+	mat->m[2][1] = -(c_xyz[0] * s_xyz[1]) * s_xyz[2] + s_xyz[0] * c_xyz[2];
+	mat->m[2][2] = c_xyz[0] * c_xyz[1];
 }

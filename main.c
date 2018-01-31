@@ -26,48 +26,53 @@ static void	get_move(t_mtr *mtr, t_map *m)
 	m->center.y = m->max_y / 2;
 }
 
-static int	key_funct(int key, void *param)
+static void	dop(int key, void *param, int (xyz)[3])
 {
-	static int	x = 0;
-	static int	y = 0;
-	static int	z = 0;
 	int			grad;
 	int			scl;
 
-	grad = 10;
 	scl = 2;
+	grad = 10;
+	if (key == W_KEY)
+		xyz[0] += grad;
+	else if (key == S_KEY)
+		xyz[0] -= grad;
+	else if (key == A_KEY)
+		xyz[1] += grad;
+	else if (key == D_KEY)
+		xyz[1] -= grad;
+	else if (key == Q_KEY)
+		xyz[2] += grad;
+	else if (key == E_KEY)
+		xyz[2] -= grad;
+	else if (key == ONE)
+		((t_window *)param)->f = 0;
+	else if (key == TWO)
+		((t_window *)param)->f = 1;
+	else if (key == MINUS && ((t_window *)param)->mtr.m[3][3] > 2)
+		((t_window *)param)->mtr.m[3][3] -= scl;
+	else if (key == PLUS && ((t_window *)param)->mtr.m[3][3] < 30)
+		((t_window *)param)->mtr.m[3][3] += scl;
+}
+
+static int	key_funct(int key, void *param)
+{
+	static int	xyz[3] = {0, 0, 0};
+
 	if (key == ESC)
 		exit(0);
 	else
 	{
-		if (key == W_KEY)
-			x += grad;
-		else if (key == S_KEY)
-			x -= grad;
-		else if (key == A_KEY)
-			y += grad;
-		else if (key == D_KEY)
-			y -= grad;
-		else if (key == Q_KEY)
-			z += grad;
-		else if (key == E_KEY)
-			z -= grad;
-		else if (key == ONE)
-			((t_window *)param)->f = 0;
-		else if (key == TWO)
-			((t_window *)param)->f = 1;
-		else if (key == MINUS && ((t_window *)param)->mtr.m[3][3] > 2)
-			((t_window *)param)->mtr.m[3][3] -= scl;
-		else if (key == PLUS && ((t_window *)param)->mtr.m[3][3] < 30)
-			((t_window *)param)->mtr.m[3][3] += scl;
-		else if (key == SPASE)
+		if (key == SPASE)
 		{
-			x = 0;
-			y = 0;
-			z = 0;
+			xyz[0] = 0;
+			xyz[1] = 0;
+			xyz[2] = 0;
 			get_move(&((t_window *)param)->mtr, &((t_window *)param)->map);
 		}
-		mtr_rot(&((t_window *)param)->mtr, x, y, z);
+		else
+			dop(key, param, xyz);
+		mtr_rot(&((t_window *)param)->mtr, xyz[0], xyz[1], xyz[2]);
 		print_map((t_window *)param);
 	}
 	return (0);

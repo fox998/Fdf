@@ -40,7 +40,8 @@ static void		get_poit_map(t_window *wind,
 			a.x = x;
 			a.y = y;
 			a.z = wind->map.map[y][x];
-			a.color = 0xFFFFFF - 0x0FFF00 * wind->map.map[y][x];
+			if ((a.color = 0xFFFFFF - 0x0FFF00 * wind->map.map[y][x]) < 1)
+				a.color = 0x000068;
 			get_point(&wind->mtr, &a, wind->map.center, wind);
 			(poit_map)[y][x] = a;
 			x++;
